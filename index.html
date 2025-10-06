@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Boxes Puzzle Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Page 1: Upload Image -->
+    <div id="upload-page" class="page active">
+        <div class="upload-container">
+            <h1>Magic Boxes Puzzle Game</h1>
+            <p>Upload an image to create a magical puzzle game</p>
+            
+            <div class="upload-btn-wrapper">
+                <button class="btn">
+                    <i class="fas fa-cloud-upload-alt"></i> Choose Image
+                </button>
+                <input type="file" id="image-upload" accept="image/*">
+            </div>
+            
+            <div id="preview-container" class="preview-container">
+                <img id="preview-image" src="" alt="Preview">
+            </div>
+            
+            <div class="game-mode-selection">
+                <h3>Select Game Mode:</h3>
+                <div class="mode-options">
+                    <label class="mode-option">
+                        <input type="radio" name="game-mode" value="magic" checked>
+                        <span class="radio-custom"></span>
+                        Magic Show Only
+                    </label>
+                    <label class="mode-option">
+                        <input type="radio" name="game-mode" value="puzzle">
+                        <span class="radio-custom"></span>
+                        Puzzle Challenge
+                    </label>
+                </div>
+            </div>
+            
+            <button id="continue-btn" class="action-btn" disabled>Continue to Magic</button>
+        </div>
+    </div>
+    
+    <!-- Page 2: Magic Selection -->
+    <div id="selection-page" class="page">
+        <div class="selection-container">
+            <h1>Select Your Magic</h1>
+            <p>Choose the type of magic transformation for your image</p>
+            
+            <div class="magic-options">
+                <div class="magic-option" data-magic="rotate">
+                    <div class="option-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Rotation Magic</h3>
+                    <p>Boxes will rotate in 3D space</p>
+                </div>
+                
+                <div class="magic-option" data-magic="scale">
+                    <div class="option-icon">
+                        <i class="fas fa-expand-alt"></i>
+                    </div>
+                    <h3>Scale Magic</h3>
+                    <p>Boxes will scale up and down</p>
+                </div>
+                
+                <div class="magic-option" data-magic="color">
+                    <div class="option-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Color Magic</h3>
+                    <p>Boxes will change colors</p>
+                </div>
+                
+                <div class="magic-option" data-magic="wave">
+                    <div class="option-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <h3>Wave Magic</h3>
+                    <p>Boxes will move in wave pattern</p>
+                </div>
+            </div>
+            
+            <div class="shape-selection">
+                <h3>Select Box Shape:</h3>
+                <div class="shape-options">
+                    <div class="shape-option active" data-shape="square">
+                        <div class="shape-preview square"></div>
+                        <span>Square</span>
+                    </div>
+                    <div class="shape-option" data-shape="circle">
+                        <div class="shape-preview circle"></div>
+                        <span>Circle</span>
+                    </div>
+                    <div class="shape-option" data-shape="diamond">
+                        <div class="shape-preview diamond"></div>
+                        <span>Diamond</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="back-to-upload" class="action-btn secondary">Back</button>
+                <button id="apply-magic" class="action-btn">Apply Magic</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 3: Magic Boxes -->
+    <div id="boxes-page" class="page">
+        <div class="game-header">
+            <button id="back-btn" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Selection
+            </button>
+            <button id="magic-btn" class="magic">Activate Magic 🎩</button>
+            <button id="puzzle-btn" class="magic puzzle-mode">Start Puzzle Challenge</button>
+            <div id="timer" class="timer">10:00</div>
+        </div>
+        <div id="boxes" class="boxes"></div>
+    </div>
+
+    <!-- Page 4: Puzzle Game -->
+    <div id="puzzle-page" class="page">
+        <div class="puzzle-header">
+            <div class="puzzle-info">
+                <div id="puzzle-timer" class="timer">10:00</div>
+                <div id="moves-counter" class="moves">Moves: 0</div>
+            </div>
+            <button id="hint-btn" class="hint-btn">
+                <i class="fas fa-lightbulb"></i> Hint
+            </button>
+            <button id="solve-btn" class="solve-btn">
+                <i class="fas fa-check"></i> Check Solution
+            </button>
+        </div>
+        
+        <div class="puzzle-container">
+            <div id="puzzle-board" class="puzzle-board"></div>
+            <div class="puzzle-controls">
+                <button id="shuffle-btn" class="action-btn">Shuffle Pieces</button>
+                <button id="reset-puzzle" class="action-btn secondary">Reset Puzzle</button>
+                <button id="back-to-magic" class="action-btn">Back to Magic</button>
+            </div>
+        </div>
+        
+        <div id="original-image-hint" class="original-image-hint">
+            <h3>Original Image</h3>
+            <img id="hint-image" src="" alt="Original Image Hint">
+        </div>
+    </div>
+
+    <!-- Win/Lose Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <div id="win-content" class="result-content win">
+                <div class="result-icon">🎉</div>
+                <h2>Congratulations!</h2>
+                <p>You solved the puzzle in <span id="completion-time">00:00</span> with <span id="final-moves">0</span> moves!</p>
+                <div class="result-stats">
+                    <div class="stat">
+                        <span class="stat-label">Time:</span>
+                        <span id="stat-time">00:00</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Moves:</span>
+                        <span id="stat-moves">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Score:</span>
+                        <span id="stat-score">1000</span>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button id="play-again" class="action-btn">Play Again</button>
+                    <button id="share-result" class="action-btn secondary">Share Result</button>
+                </div>
+            </div>
+            
+            <div id="lose-content" class="result-content lose">
+                <div class="result-icon">⏰</div>
+                <h2>Time's Up!</h2>
+                <p>You ran out of time! Try to be faster next time.</p>
+                <div class="result-actions">
+                    <button id="try-again" class="action-btn">Try Again</button>
+                    <button id="back-to-menu" class="action-btn secondary">Back to Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
