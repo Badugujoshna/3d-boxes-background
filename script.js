@@ -51,7 +51,7 @@ let correctPositions = [];
 let currentPositions = [];
 let moves = 0;
 let gameTimer;
-let timeLeft = 600; // 10 minutes in seconds
+let timeLeft = 300; // 5 minutes in seconds (changed from 600 to 300)
 let isGameActive = false;
 
 // Event Listeners
@@ -418,7 +418,7 @@ function showHint() {
 // Game timer functions
 function startGameTimer() {
     isGameActive = true;
-    timeLeft = 600; // 10 minutes
+    timeLeft = 300; // 5 minutes (changed from 600 to 300)
     
     gameTimer = setInterval(() => {
         timeLeft--;
@@ -452,8 +452,8 @@ function stopGameTimer() {
 
 // Show win screen
 function showWinScreen() {
-    const minutes = Math.floor((600 - timeLeft) / 60);
-    const seconds = (600 - timeLeft) % 60;
+    const minutes = Math.floor((300 - timeLeft) / 60); // Changed from 600 to 300
+    const seconds = (300 - timeLeft) % 60; // Changed from 600 to 300
     const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
     completionTime.textContent = timeString;
@@ -462,7 +462,7 @@ function showWinScreen() {
     statMoves.textContent = moves;
     
     // Calculate score (higher score for faster completion with fewer moves)
-    const timeScore = Math.max(0, 600 - (600 - timeLeft)) * 2;
+    const timeScore = Math.max(0, 300 - (300 - timeLeft)) * 2; // Changed from 600 to 300
     const movesScore = Math.max(0, 100 - moves) * 10;
     const totalScore = timeScore + movesScore;
     
